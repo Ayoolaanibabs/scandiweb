@@ -226,6 +226,9 @@ footer {
 }
 
 @media (max-width: 600px) {
+  .grid {
+    grid-template-columns: 350px; 
+  }
   .form {
     width: 90%;
   }
