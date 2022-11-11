@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { createProduct, getAllProduct, setStatus } from '../features/product/productSlice';
+import {
+  createProduct,
+  getAllProduct,
+  setStatus,
+} from '../features/product/productSlice';
 import Footer from '../components/Footer';
 import { PRODUCT_TYPES, ROUTES } from '../utilities/constants';
 
@@ -64,7 +68,14 @@ const AddProductPage = () => {
             <div className="heading">Product Add</div>
             <div style={{ padding: '15px' }}>
               <button type="submit">Save</button>
-              <button onClick={() => navigate(ROUTES.HOME)}>Cancel</button>
+              <button
+                onClick={() => {
+                  dispatch(setStatus());
+                  navigate(ROUTES.HOME);
+                }}
+              >
+                Cancel
+              </button>
             </div>
           </header>
           <hr />
