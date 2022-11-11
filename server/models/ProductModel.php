@@ -39,7 +39,9 @@ class ProductModel
 
   public function addProduct($dict)
   {
+    // Validation by getting the rules for the type of product class then create the model using the data
     $product = $this->validate($dict);
+
     $response = new Response();
     if (is_string($product)) {
       $response->setStatusCode(400);
@@ -50,7 +52,7 @@ class ProductModel
 
     $product = $product->convert_to_dict();
 
-
+    // Creating the product using the model created after validation
     $query = $this->queries->insert($product["type"]);
     try {
       $this->db->prepareAndExecute($query, $params);
@@ -87,14 +89,12 @@ class ProductModel
 
   private function validate($params)
   {
+    // The rules for the validation are gotten based on the product type
     $rules = $this->factory->getRules($params);
     $valid = $this->validator->validate($params, $rules);
     if ($valid != "") {
       return $valid;
     }
-    // if ($valid == false) {
-    //   return false;
-    // }
 
     $query = $this->queries->exists();
     try {
@@ -106,7 +106,7 @@ class ProductModel
     if ($result->fetch(PDO::FETCH_NUM)[0] == 1) {
       return "sku already exists";
     }
-
+    // After validation, the product's model created is returned
     return $this->factory->newProduct($params);
   }
 }
