@@ -7,6 +7,7 @@ const initialState = {
   isSuccess: false,
   isLoading: false,
   message: '',
+  status: null,
 };
 
 // Get all product
@@ -73,6 +74,9 @@ export const productSlice = createSlice({
     reset: (state) => {
       state = initialState;
     },
+    setStatus: (state) => {
+      state.status = null
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -94,6 +98,7 @@ export const productSlice = createSlice({
       .addCase(createProduct.fulfilled, (state, action) => {
         state.isLoading = false;
         state.isSuccess = true;
+        state.status = action.payload;
         // state.products.push(action.payload);
       })
       .addCase(createProduct.rejected, (state) => {
@@ -122,5 +127,5 @@ export const productSlice = createSlice({
   },
 });
 
-export const { reset } = productSlice.actions;
+export const { reset, setStatus } = productSlice.actions;
 export default productSlice.reducer;

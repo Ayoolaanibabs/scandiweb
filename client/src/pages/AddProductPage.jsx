@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { createProduct, getAllProduct } from '../features/product/productSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { createProduct, getAllProduct, setStatus } from '../features/product/productSlice';
 import Footer from '../components/Footer';
 import { PRODUCT_TYPES, ROUTES } from '../utilities/constants';
 
@@ -17,6 +17,8 @@ const AddProductPage = () => {
     width: undefined,
     length: undefined,
   });
+  const { status } = useSelector((state) => state.product);
+  const [skuErr, setSkuErr] = useState('');
   const { name, type, sku, price, size, weight, height, width, length } =
     productData;
   const dispatch = useDispatch();
@@ -42,9 +44,17 @@ const AddProductPage = () => {
       length: parseFloat(length),
     };
     dispatch(createProduct(data));
-    dispatch(getAllProduct());
-    navigate(ROUTES.HOME);
   };
+
+  useEffect(() => {
+    if (status === 400) {
+      setSkuErr('SKU already exists for another product');
+    } else if (status === 200) {
+      dispatch(setStatus());
+      dispatch(getAllProduct());
+      navigate(ROUTES.HOME);
+    }
+  }, [status, dispatch, navigate]);
 
   return (
     <>
@@ -71,6 +81,9 @@ const AddProductPage = () => {
                 value={sku}
                 required
               />
+            </div>
+            <div>
+              <p className="error_message">{skuErr}</p>
             </div>
             <div className="form-group">
               <label>Name</label>

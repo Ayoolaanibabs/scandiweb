@@ -207,6 +207,13 @@ footer {
   align-items: center;
 }
 
+.error_message {
+  color: red;
+  font-size: 14px;
+  text-align: left; 
+  margin-left: 23vmin;
+}
+
 .loadingSpinner {
   width: 64px;
   height: 64px;

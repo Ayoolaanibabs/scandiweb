@@ -15,7 +15,7 @@ const createProduct = async (productInfo) => {
     method: 'POST',
     body: JSON.stringify(productInfo),
   });
-  return response.data;
+  return response.status;
 };
 
 const deleteProduct = async (productList) => {
